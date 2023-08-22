@@ -4,11 +4,9 @@ require('dotenv').config()
 const app=express();
 const port=process.env.PORT||5000;
 const connectDB = require('./Config/db');
-const { bgYellow, yellow } = require('colors');
 const { notFound, errorHandler } = require('./Middleware/Errormiddleware');
-const   Contactroute=require('./Routes/contactus');
 const userroutes=require("./Routes/userroutes");
-const blogroute=require("./Routes/blogroute");
+
 
 app.use(express.json());
 app.use(cors());

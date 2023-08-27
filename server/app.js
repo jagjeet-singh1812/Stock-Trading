@@ -6,11 +6,13 @@ const port=process.env.PORT||5000;
 const connectDB = require('./Config/db');
 const { notFound, errorHandler } = require('./Middleware/Errormiddleware');
 const userroutes=require("./Routes/userroutes");
+const stockroutes = require('./Routes/stockroutes');
 
 
 app.use(express.json());
 app.use(cors());
-app.use('/api/v1/user',userroutes);
+app.use('/api/user',userroutes);
+app.use('/api/stockdata',stockroutes);
 app.use(notFound);
 app.use(errorHandler);
 

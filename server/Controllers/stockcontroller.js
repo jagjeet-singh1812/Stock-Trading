@@ -5,8 +5,7 @@ API_SECRET = "7QNcVM5RSbi2aWghXVeMTlcnrrGS12fjQxDmBcmG";
 const feed = "iex"; // Change to "sip" if on a paid plan
 const symbol = "BTCUSD";
 
-const Realtime_data = async (req, res) => {
-  class DataStream {
+class DataStream {
     constructor({ apiKey, secretKey, feed }) {
       this.alpaca = new Alpaca({
         keyId: apiKey,
@@ -61,12 +60,15 @@ const Realtime_data = async (req, res) => {
     }
   }
 
+const Realtime_data = async (req, res) => {
   let stream = new DataStream({
     apiKey: API_KEY,
     secretKey: API_SECRET,
     feed: "sip",
     paper: true,
   });
+  console.log(stream);
+  res.status(200).send("success");
 };
 
 module.exports = { Realtime_data };

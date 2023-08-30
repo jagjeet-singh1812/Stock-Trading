@@ -23,7 +23,6 @@ app.listen(port,()=>{
 
 start();
 
-// frontend code for cloudinary
 const postDetails = (pics) => {
     setPicLoading(true);
     if (!pics) {

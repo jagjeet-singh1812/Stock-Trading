@@ -6,6 +6,11 @@ import CoinPage from "./Screens/CoinPage";
 import Header from "./Components/Header";
 import HomePage from "./Screens/HomePage";
 import LoginPage from "./Screens/LoginPage/LoginPage";
+import Dashboard from "./Components/Dashboard";
+import StockContext from "./context/StockContext";
+
+import ThemeContext from "./context/ThemeContext";
+import { useState } from "react";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -16,6 +21,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [stockSymbol, setStockSymbol] = useState("MSFT");
   const classes = useStyles();
   return (
     <BrowserRouter>
@@ -30,8 +37,16 @@ function App() {
           </LoginLayout>
         </Route> */}
         <Route exact path="/">
-                  <LoginPage />
-            </Route>
+          <LoginPage />
+        </Route>
+        <Route exact path="/company">
+          <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+            <StockContext.Provider value={{ stockSymbol, setStockSymbol }}>
+              <Dashboard />
+            </StockContext.Provider>
+          </ThemeContext.Provider>
+          {/* <h1>hi</h1> */}
+        </Route>
       </div>
     </BrowserRouter>
   );

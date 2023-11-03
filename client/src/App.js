@@ -9,7 +9,7 @@ import LoginPage from "./Screens/LoginPage/LoginPage";
 import Dashboard from "./Components/Dashboard";
 import StockContext from "./context/StockContext";
 import RegisterPage from './Screens/RegisterPage/RegisterPage'
-
+import AppContext from "./Context";
 import ThemeContext from "./context/ThemeContext";
 import { useState } from "react";
 
@@ -26,17 +26,12 @@ function App() {
   const [stockSymbol, setStockSymbol] = useState("MSFT");
   const classes = useStyles();
   return (
+    <AppContext>
     <BrowserRouter>
       <div className={classes.App}>
         <Header />
         <Route path="/home" component={LandingPage} exact />
         <Route path="/coins/:id" component={CoinPage} exact />
-        {/* <Route path="/homepage" component={HomePage} exact /> */}
-        {/* <Route exact path="/registration">
-          <LoginLayout>
-            <RegistrationPage />
-          </LoginLayout>
-        </Route> */}
         <Route exact path="/">
           <LoginPage />
         </Route>
@@ -53,6 +48,7 @@ function App() {
         </Route>
       </div>
     </BrowserRouter>
+    </AppContext>
   );
 }
 

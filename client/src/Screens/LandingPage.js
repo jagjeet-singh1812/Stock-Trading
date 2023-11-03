@@ -24,6 +24,7 @@ const Homepage = () => {
       history.push("/");
     }
   }
+
   useEffect(() =>{
     
     authUser();
@@ -47,6 +48,12 @@ const Homepage = () => {
           style={{ color: SelectedTab === "Stocks" ? "black" : "inherit" }}
         >
           Stocks
+        </Button>
+        <Button
+          color="inherit"
+          onClick={() => history.push("/book")}
+        >
+          Bookmarks
         </Button>
       </div>
       {SelectedTab === "Bitcoins" && <Banner />}

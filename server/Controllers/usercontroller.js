@@ -58,23 +58,25 @@ const authuser = asyncHandler(async (req, res) => {
 
 const Bookmark = require("../models/bookmark");
 const createBookmark = asyncHandler(async (req, res) => {
-  const { title, url, username } = req.body;
+  const { title, url, email} = req.body;
 
   // Validate the input data
-  if (!title || !url || !username) {
+  if (!title || !url || !email) {
     res.status(400).json({ message: "Title, URL, and Username are required fields." });
     return;
   }
 
   try {
     // Find the user by their username
-    const user = await User.findOne({ name:username });
-
+    const user = await User.findOne({ email});
     if (!user) {
       res.status(404).json({ message: "User not found." });
       return;
     }
-
+    console.log(title);
+    console.log(url);
+const alreadyther= await Bookmark.findOne({user,title})
+if(alreadyther) return res.status(203).json(alreadyther);
     // Create a new bookmark for the user
     const bookmark = await Bookmark.create({
       title,
@@ -90,12 +92,11 @@ const createBookmark = asyncHandler(async (req, res) => {
 
 
 const getBookmarksByUsername = asyncHandler(async (req, res) => {
-  const { username } = req.body;
-
+  const { email } = req.body;
+console.log(req.body)
   try {
     // Find the user by username
-    const user = await User.findOne({ name:username });
-
+    const user = await User.findOne({ email });
     if (!user) {
       res.status(404).json({ message: "User not found." });
       return;
@@ -111,4 +112,30 @@ const getBookmarksByUsername = asyncHandler(async (req, res) => {
 });
 
 
-module.exports = { Registeruser, authuser , createBookmark ,getBookmarksByUsername};
+const removebookmark=async(req,res)=>{
+  try {
+    const { email, title } = req.body;
+    console.log("Email:", email);
+    console.log("Title:", title);
+    const user= await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const id=user._id
+    console.log(id);
+    const result = await Bookmark.findOneAndDelete({ user:id,title });
+    console.log(result)
+    if (!result) {
+      return res.status(404).json({ message: "Bookmark not found" });
+    }
+  
+    return res.status(200).json({ message: "Bookmark removed successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).json({ message: "Failed to remove bookmark", error: error.message });
+  }
+  
+}
+
+
+module.exports = { Registeruser, authuser , createBookmark ,getBookmarksByUsername,removebookmark};

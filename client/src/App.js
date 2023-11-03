@@ -12,6 +12,7 @@ import RegisterPage from './Screens/RegisterPage/RegisterPage'
 import AppContext from "./Context";
 import ThemeContext from "./context/ThemeContext";
 import { useState } from "react";
+import Bookmarkpage from "./Screens/Bookmarkpage";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route exact path="/register">
           <RegisterPage />
+        </Route>
+        <Route exact path="/book">
+          <Bookmarkpage/>
         </Route>
         <Route exact path="/company">
           <ThemeContext.Provider value={{ darkMode, setDarkMode }}>

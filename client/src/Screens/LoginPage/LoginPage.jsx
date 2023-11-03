@@ -72,9 +72,7 @@ const LoginPage = () => {
         // /api/v1/college/college_faculty/login
         // /api/v1/college/student/login
         // console.log(response);
-
         // localStorage.setItem("token", response.data.token);
-
         // Navigate("/crypto");
         if(result.token){
         localStorage.setItem("token", result.token);

@@ -1,39 +1,27 @@
-import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
+import { LinearProgress, makeStyles, Typography,Button } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams,useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import CoinInfo from "../Components/CoinInfo";
 import { SingleCoin } from "../config/api";
 import { numberWithCommas } from "../Components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+  
 import Header from "../Components/Header";
-
+import Bookmarkpage from "./Bookmarkpage";
 const CoinPage = () => {
-  const history = useHistory();
   const { id } = useParams();
-  // const navigate = useNavigate();
   const [coin, setCoin] = useState();
 
   const { currency, symbol } = CryptoState();
 
   const fetchCoin = async () => {
     const { data } = await axios.get(SingleCoin(id));
-
     setCoin(data);
   };
-  function authUser(){
-    console.log("hi")
-    if(!localStorage.getItem("token")){
-      alert("Not logged In!");
-      history.push("/");
-    }
-  }
-  useEffect(() =>{
-    
-    authUser();
-  },[])
-  authUser()
 
   useEffect(() => {
     fetchCoin();
@@ -91,13 +79,156 @@ const CoinPage = () => {
     },
   }));
 
+
+  const removebookmark =async()=>{
+    try {
+      const userInfo = localStorage.getItem("email");
+      if (!userInfo) {
+        // Handle the case where user information is not available
+        toast.warning({
+          title: "Error Occurred!",
+          description: "User information not found.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+          className: "toast-custom-style",
+        });
+        return;
+      }
+  console.log(userInfo)
+      // const userEmail = userInfo.email;
+      // Make an API call to add the bookmark using the user's email
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/user/remove",
+        {
+          email: userInfo,
+          url:"test",
+         title:coin?.name
+        },
+        config
+      );
+      console.log(data)
+      toast({
+        title: "Bookmark Added!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+        className: "toast-custom-style",
+      });
+    } catch (error) {
+      toast.warning({
+        title: "Error Occurred!",
+        description:"some error occured",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+        className: "toast-custom-style",
+      });
+    }
+  }
+
+  const addBookmarkToServer = async () => {
+    try {
+      const userInfo = localStorage.getItem("email");
+      if (!userInfo) {
+        // Handle the case where user information is not available
+        toast.warning({
+          title: "Error Occurred!",
+          description: "User information not found.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+          className: "toast-custom-style",
+        });
+        return;
+      }
+  console.log(userInfo)
+      // const userEmail = userInfo.email;
+      // Make an API call to add the bookmark using the user's email
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/user/bookmark",
+        {
+          email: userInfo,
+          url:"test",
+         title:coin?.name
+        },
+        config
+      );
+      console.log(data)
+      toast.success({
+        title: "Bookmark Added!",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+        className: "toast-custom-style",
+      });
+    } catch (error) {
+      toast.warning({
+        title: "Error Occurred!",
+        description:"some error occured",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+        className: "toast-custom-style",
+      });
+    }
+  };
+let isBookmarkedx=false;
+const[userBookmark,setUserBookmarks]=useState(new Set([]))
+  useEffect(() => {
+    const fetchUserBookmarks = async () => {
+      try {
+        const userInfo = localStorage.getItem("email");
+        if (!userInfo) {
+          return;
+        }
+        const { data } = await axios.post("http://localhost:5000/api/v1/user/getbookmark", {
+          email: userInfo,
+        });
+        console.log(data);
+        setUserBookmarks(new Set(data.map(bookmark => bookmark.title)));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUserBookmarks();
+    console.log(userBookmark)
+  }, []);
+  
+  
   const classes = useStyles();
+  isBookmarkedx = userBookmark.has(coin?.name);
+  const [isBookmarked, setIsBookmarked] = useState(isBookmarkedx);
+  const handleBookmark = async () => {
+    setIsBookmarked(!isBookmarked);
+    await addBookmarkToServer();
+  };
+  const handleBookmarkr = async () => {
+    setIsBookmarked(!isBookmarked);
+    await removebookmark();
+  };
 
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
   return (
     <>
-    <Header />
+    <Header/>
     <div className={classes.container}>
       <div className={classes.sidebar}>
         <img
@@ -165,10 +296,27 @@ const CoinPage = () => {
               M
             </Typography>
           </span>
+          <Button
+          variant="contained"
+          disabled={isBookmarked}
+          color={isBookmarked ? "secondary" : "primary"} // Change color based on bookmark status
+          onClick={handleBookmark}
+        >
+          Add Bookmark
+        </Button>
+          <Button
+          variant="contained"
+          disabled={!isBookmarked}
+          color={isBookmarked ? "secondary" : "primary"} // Change color based on bookmark status
+          onClick={handleBookmarkr}
+        >
+        Remove Bookmark
+        </Button>
         </div>
       </div>
       <CoinInfo coin={coin} />
     </div>
+      <ToastContainer/>
     </>
   );
 };

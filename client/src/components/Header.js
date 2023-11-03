@@ -45,7 +45,7 @@ function Header() {
         <Container>
           <Toolbar>
             <Typography
-              onClick={() => history.push(`/`)}
+              onClick={() => history.push(`/home`)}
               variant="h6"
               className={classes.title}
             >

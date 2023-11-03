@@ -41,7 +41,8 @@ function Banner() {
               fontFamily: "Montserrat",
             }}
           >
-            StockSocial
+              StockSocial
+            
           </Typography>
           <Typography
             variant="subtitle2"

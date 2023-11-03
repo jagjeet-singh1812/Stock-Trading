@@ -37,7 +37,7 @@ function App() {
             <RegistrationPage />
           </LoginLayout>
         </Route> */}
-        <Route exact path="/login">
+        <Route exact path="/">
           <LoginPage />
         </Route>
         <Route exact path="/register">

@@ -55,4 +55,60 @@ const authuser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { Registeruser, authuser };
+
+const Bookmark = require("../models/bookmark");
+const createBookmark = asyncHandler(async (req, res) => {
+  const { title, url, username } = req.body;
+
+  // Validate the input data
+  if (!title || !url || !username) {
+    res.status(400).json({ message: "Title, URL, and Username are required fields." });
+    return;
+  }
+
+  try {
+    // Find the user by their username
+    const user = await User.findOne({ name:username });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found." });
+      return;
+    }
+
+    // Create a new bookmark for the user
+    const bookmark = await Bookmark.create({
+      title,
+      url,
+      user: user._id,
+    });
+
+    res.status(201).json(bookmark);
+  } catch (error) {
+    res.status(500).json({ message: "Bookmark creation failed.", error: error.message });
+  }
+});
+
+
+const getBookmarksByUsername = asyncHandler(async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    // Find the user by username
+    const user = await User.findOne({ name:username });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found." });
+      return;
+    }
+
+    // Fetch all bookmarks for the user
+    const bookmarks = await Bookmark.find({ user: user._id });
+
+    res.status(200).json(bookmarks);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve bookmarks.", error: error.message });
+  }
+});
+
+
+module.exports = { Registeruser, authuser , createBookmark ,getBookmarksByUsername};

@@ -18,7 +18,7 @@ const RegisterPage = () => {
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name,setNamename] = useState("");
+  const [name, setNamename] = useState("");
   const [selectedOption, setSelectedOption] = useState("University");
 
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
@@ -59,11 +59,11 @@ const RegisterPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name:name,
-            email:username,
+            name: name,
+            email: username,
             password,
           }),
-        }).then((data)=>data.json());
+        }).then((data) => data.json());
         console.log(result);
 
         // const response = await axios.post(`${url}${endpoint}`, {
@@ -78,12 +78,11 @@ const RegisterPage = () => {
         // localStorage.setItem("token", response.data.token);
 
         // Navigate("/crypto");
-        if(result.token){
+        if (result.token) {
           localStorage.setItem("token", result.token);
-        history.push("/login");
-        }
-        else if (result == "User not Found"){
-          alert("Incorrect Credentials")
+          history.push("/login");
+        } else if (result == "User not Found") {
+          alert("Incorrect Credentials"); 
         }
         // alert("yooo")
       } catch (error) {

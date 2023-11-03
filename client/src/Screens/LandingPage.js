@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Banner from "../Components/Banner/Banner";
 import CoinsTable from "../Components/CoinsTable";
 import "./Landingpage.css"
 import { Context } from "../Context";
+import { useParams,useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { Button } from "@material-ui/core";
 import Stocktable from "./ParthwalaTable/Stocktable";
 const Homepage = () => {
+  const history = useHistory();
+
   const {
     SelectedTab, SetSelectedTab
   } = useContext(Context);
   const handleTabChange = (tab) => {
     SetSelectedTab(tab);
   };
+  function authUser(){
+    console.log("hi")
+    if(!localStorage.getItem("token")){
+      alert("Not logged In!");
+      history.push("/");
+    }
+  }
+  useEffect(() =>{
+    
+    authUser();
+  },[])
   return (
     <>
       <div className="btnx">

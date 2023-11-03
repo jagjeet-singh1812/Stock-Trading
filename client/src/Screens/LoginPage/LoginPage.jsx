@@ -77,7 +77,8 @@ const LoginPage = () => {
 
         // Navigate("/crypto");
         if(result.token){
-          localStorage.setItem("token", result.token);
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("email",result.email);
         history.push("/home");
         }
         else if (result == "User not Found"){

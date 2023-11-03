@@ -1,7 +1,7 @@
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useHistory } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import CoinInfo from "../Components/CoinInfo";
 import { SingleCoin } from "../config/api";
@@ -9,7 +9,9 @@ import { numberWithCommas } from "../Components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
 
 const CoinPage = () => {
+  const history = useHistory();
   const { id } = useParams();
+  // const navigate = useNavigate();
   const [coin, setCoin] = useState();
 
   const { currency, symbol } = CryptoState();
@@ -19,6 +21,18 @@ const CoinPage = () => {
 
     setCoin(data);
   };
+  function authUser(){
+    console.log("hi")
+    if(!localStorage.getItem("token")){
+      alert("Not logged In!");
+      history.push("/");
+    }
+  }
+  useEffect(() =>{
+    
+    authUser();
+  },[])
+  authUser()
 
   useEffect(() => {
     fetchCoin();

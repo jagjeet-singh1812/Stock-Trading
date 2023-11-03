@@ -4,6 +4,7 @@ import {
   MenuItem,
   Select,
   Toolbar,
+  Button,
   Typography,
 } from "@material-ui/core";
 import {
@@ -38,7 +39,12 @@ function Header() {
   const { currency, setCurrency } = CryptoState();
 
   const history = useHistory();
-
+  function logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    history.push("/")
+  }
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar color="transparent" position="static">
@@ -63,6 +69,8 @@ function Header() {
               <MenuItem value={"USD"}>USD</MenuItem>
               <MenuItem value={"INR"}>INR</MenuItem>
             </Select>
+            <Button onClick={logout} style={{"marginLeft":"20px","color":"inherit"}} variant="outlined">Logout</Button>
+            
           </Toolbar>
         </Container>
       </AppBar>

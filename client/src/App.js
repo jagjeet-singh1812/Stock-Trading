@@ -8,6 +8,7 @@ import HomePage from "./Screens/HomePage";
 import LoginPage from "./Screens/LoginPage/LoginPage";
 import Dashboard from "./Components/Dashboard";
 import StockContext from "./context/StockContext";
+import RegisterPage from './Screens/RegisterPage/RegisterPage'
 
 import ThemeContext from "./context/ThemeContext";
 import { useState } from "react";
@@ -36,8 +37,11 @@ function App() {
             <RegistrationPage />
           </LoginLayout>
         </Route> */}
-        <Route exact path="/">
+        <Route exact path="/login">
           <LoginPage />
+        </Route>
+        <Route exact path="/register">
+          <RegisterPage />
         </Route>
         <Route exact path="/company">
           <ThemeContext.Provider value={{ darkMode, setDarkMode }}>

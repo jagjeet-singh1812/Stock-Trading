@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./LoginPage.css";
+import "./RegisterPage.css";
 import { useHistory } from "react-router-dom";
 import "react-dropdown/style.css";
-import ForgotPasswordPopup from "./ForgotPasswordPopup";
+// import ForgotPasswordPopup from "./ForgotPasswordPopup";
 import { FaEye } from "react-icons/fa";
 // import url from "blah";
 // import axios from "axios";
@@ -12,12 +12,13 @@ const SERVER = "http://localhost:5000";
 
 const eye = <FaEye />;
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const url = "bleh";
   // const Navigate = useNavigate();
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name,setNamename] = useState("");
   const [selectedOption, setSelectedOption] = useState("University");
 
   const [showForgotPasswordPopup, setShowForgotPasswordPopup] = useState(false);
@@ -44,7 +45,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     const sendData = async () => {
-      let endpoint = "/api/v1/user/login";
+      let endpoint = "/api/v1/user/register";
       try {
         console.log(selectedOption);
         // console.log(selectedOption);
@@ -58,6 +59,7 @@ const LoginPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            name:name,
             email:username,
             password,
           }),
@@ -78,7 +80,7 @@ const LoginPage = () => {
         // Navigate("/crypto");
         if(result.token){
           localStorage.setItem("token", result.token);
-        history.push("/home");
+        history.push("/login");
         }
         else if (result == "User not Found"){
           alert("Incorrect Credentials")
@@ -135,6 +137,19 @@ const LoginPage = () => {
                   />
                 </div> */}
                 <div className="form-group">
+                  <label for="name">Name</label>
+                  <input
+                    type="name"
+                    id="name"
+                    autocomplete="off"
+                    placeholder="Enter your name"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    value={name}
+                    onChange={(e) => setNamename(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
                   <label for="email">Email</label>
                   <input
                     type="email"
@@ -176,18 +191,18 @@ const LoginPage = () => {
 
               {/* <button className="login-btn">Log In</button> */}
               <div className="inputSubmitDiv">
-                <input type="submit" className="login-btn" value="LOGIN" />
+                <input type="submit" className="login-btn" value="REGISTER" />
               </div>
             </div>
           </form>
         </section>
       </div>
 
-      {showForgotPasswordPopup && (
+      {/* {showForgotPasswordPopup && (
         <ForgotPasswordPopup onClose={handleClosePopup} />
-      )}
+      )} */}
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -7,6 +7,7 @@ import CoinInfo from "../Components/CoinInfo";
 import { SingleCoin } from "../config/api";
 import { numberWithCommas } from "../Components/CoinsTable";
 import { CryptoState } from "../CryptoContext";
+import Header from "../Components/Header";
 
 const CoinPage = () => {
   const history = useHistory();
@@ -95,6 +96,8 @@ const CoinPage = () => {
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
   return (
+    <>
+    <Header />
     <div className={classes.container}>
       <div className={classes.sidebar}>
         <img
@@ -166,6 +169,7 @@ const CoinPage = () => {
       </div>
       <CoinInfo coin={coin} />
     </div>
+    </>
   );
 };
 

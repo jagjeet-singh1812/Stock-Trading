@@ -45,6 +45,7 @@ function Header() {
     history.push("/")
   }
   
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar color="transparent" position="static">

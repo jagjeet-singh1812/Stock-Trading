@@ -7,6 +7,7 @@ import { useParams,useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { Button } from "@material-ui/core";
 import Stocktable from "./ParthwalaTable/Stocktable";
+import Header from "../Components/Header";
 const Homepage = () => {
   const history = useHistory();
 
@@ -29,6 +30,7 @@ const Homepage = () => {
   },[])
   return (
     <>
+    <Header />
       <div className="btnx">
         <Button
           color="inherit"

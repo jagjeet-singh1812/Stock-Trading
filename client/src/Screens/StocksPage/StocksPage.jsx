@@ -156,6 +156,9 @@ export default function StocksPage() {
         coin.symbol.toLowerCase().includes(search)
     );
   };
+  function handleRowClick(url){
+    window.location.href = url;
+  }
 
   return (
     <div>
@@ -226,11 +229,10 @@ export default function StocksPage() {
                     .map((row) => {
                       const profit = row.price_change_percentage_24h > 0;
                       return (
-                        <a href={"http://localhost:3001/" + row.symbol}>
                         <TableRow
-                          onClick={() => history.push(`/coins/${row.id}`)}
                           className={classes.row}
                           key={row.name}
+                          onClick = {()=>handleRowClick('http://localhost:3001/' + row.symbol)}
                         >
                           <TableCell
                             component="th"
@@ -286,7 +288,6 @@ export default function StocksPage() {
                             )}
                           </TableCell>
                         </TableRow>
-                        </a>
                       );
                     })}
                 </TableBody>

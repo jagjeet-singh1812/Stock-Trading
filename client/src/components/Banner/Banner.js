@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Banner() {
+function Banner(props) {
   const classes = useStyles();
+  const {data_type} = props;
 
   return (
     <div className={classes.banner}>
@@ -52,10 +53,10 @@ function Banner() {
               fontFamily: "Montserrat",
             }}
           >
-            Get all informationa and data about any stock at NIFTY
+            Get all informationa and data about any stock at NIFTY or any Crypto
           </Typography>
         </div>
-        <Carousel />
+        <Carousel data_type ={data_type}/>
       </Container>
     </div>
   );

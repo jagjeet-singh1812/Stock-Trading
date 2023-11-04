@@ -3,8 +3,6 @@ import LandingPage from "./Screens/LandingPage";
 import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import CoinPage from "./Screens/CoinPage";
-import Header from "./Components/Header";
-import HomePage from "./Screens/HomePage";
 import LoginPage from "./Screens/LoginPage/LoginPage";
 import Dashboard from "./Components/Dashboard";
 import StockContext from "./context/StockContext";
@@ -13,6 +11,7 @@ import AppContext from "./Context";
 import ThemeContext from "./context/ThemeContext";
 import { useState } from "react";
 import Bookmarkpage from "./Screens/Bookmarkpage";
+import StocksPage from "./Screens/StocksPage/StocksPage";
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -41,6 +40,9 @@ function App() {
         </Route>
         <Route exact path="/book">
           <Bookmarkpage/>
+        </Route>
+        <Route exact path="/stocks">
+          <StocksPage/>
         </Route>
         <Route exact path="/company">
           <ThemeContext.Provider value={{ darkMode, setDarkMode }}>

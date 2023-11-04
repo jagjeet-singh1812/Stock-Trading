@@ -7,15 +7,16 @@ import { TrendingCoins } from "../../config/api";
 import { CryptoState } from "../../CryptoContext";
 import { numberWithCommas } from "../CoinsTable";
 
-const Carousel = () => {
+const Carousel = (props) => {
   const [trending, setTrending] = useState([]);
   const { currency, symbol } = CryptoState();
+  const { data_type } = props;
 
   const fetchTrendingCoins = async () => {
-    const { data } = await axios.get(TrendingCoins(currency));
-
-    console.log(data);
-    setTrending(data);
+      const { data } = await axios.get(TrendingCoins(currency));
+      console.log(data);
+      setTrending(data);
+    
   };
 
   useEffect(() => {

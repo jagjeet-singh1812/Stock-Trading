@@ -39,11 +39,11 @@ const Homepage = () => {
           variant={SelectedTab === "Bitcoins" ? "contained" : "text"}
           style={{ color: SelectedTab === "Bitcoins" ? "black" : "inherit" }}
         >
-          Bit Coins
+          Cryptocurrency
         </Button>
         <Button
           color="inherit"
-          onClick={() => handleTabChange("Stocks")}
+          onClick={() => history.push("/stocks")}
           variant={SelectedTab === "Stocks" ? "contained" : "text"}
           style={{ color: SelectedTab === "Stocks" ? "black" : "inherit" }}
         >
@@ -56,7 +56,7 @@ const Homepage = () => {
           Bookmarks
         </Button>
       </div>
-      {SelectedTab === "Bitcoins" && <Banner />}
+      {SelectedTab === "Bitcoins" && <Banner data_type = "crypto"/>}
       {SelectedTab === "Bitcoins" && <CoinsTable/>}
 {SelectedTab==="Stocks" && <Stocktable/>}
     </>
